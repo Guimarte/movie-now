@@ -1,9 +1,9 @@
 import React from 'react'
-
+import Main from './pages/Main/index'
 
 function App() {
   return (
-    <h1>Movie Now</h1>
+    <Main />
   );
 }
 
