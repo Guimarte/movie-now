@@ -1,11 +1,24 @@
-import React from 'react'
-import {Navbar, Nav, Button} from 'react-bootstrap'
+import React from "react";
+import { Navbar, Nav, Button } from "react-bootstrap";
+import StyledNav from './styles'
 
-const Header = ()=>{
+const Header = () => {
+  return (
+    <Navbar bg="light" expand="lg">
+      <Navbar.Brand href="">Movie Now</Navbar.Brand>
+      <Navbar.Toggle aria-controls="basic-navbar-nav" />
+      <Navbar.Collapse id="basic-navbar-nav">
+        <StyledNav className="mr-auto">
+          <Nav>Seja Bem-Vindo</Nav>
+                   
+          </StyledNav>
+          <Nav >
+          <Button variant="outline-danger">Sign Out</Button>                   
+          </Nav>
+          
+      </Navbar.Collapse>
+    </Navbar>
+  );
+};
 
-    return(
-        <h1>Header</h1>
-    )
-}
-
-export default Header
+export default Header;

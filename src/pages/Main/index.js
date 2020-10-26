@@ -1,46 +1,63 @@
-import React from "react";
-import {Container, Card, Row, Col, Button} from 'react-bootstrap';
+import React, { useState, useEffect } from "react";
+import Header from "../../components/Header";
+import firebase from "firebase";
+import {
+  StyledContainer,
+  StyledTitle,
+  StyledRow,
+  StyledCard,
+  StyledButton,
+  StyledCardImg,
+  StyledCardBody,
+  StyledCardText,
+} from "./styles";
 
-const Main = () => {
-  return ( 
-  <>
-<Container style={{
-paddingTop:50,
-display: 'flex',
-flexDirection: 'column',
-alignItems: 'center',
-midWidth: 300,
+function Main() {
+  
+const [movies, setMovies] = useState([]);
+  useEffect(() => {
+    async function loadMovies() {
+     const db = firebase.firestore();
+     db.collection('movies')
+     .get()
+     .then((querySnapshot)=>{
+         const arrmovies = []
+         querySnapshot.forEach((doc)=>{
+             console.log(doc.data())
+             arrmovies.push(doc.data())
+         })
+         setMovies(arrmovies)
+     })
+    }
+    loadMovies()
+  },
+    []);
 
-}}>
-
-  <h1 style ={{color: '#FFF', marginTop:20, fontFamily:'ubuntu'}}>Movie Now</h1>
-  <Row style={{display:'flex', justifyContent:'center'}}>
-  <Card style={{ width: 250, margin:10 }}>
-  <Card.Img variant="top" style={{width: 180, height:300, alignSelf:'center', paddingTop:20, cursor:'pointer'}} src="https://i.pinimg.com/564x/b7/77/d0/b777d0e46cba55f535f68318e28aca80.jpg" />
-  <Card.Body style={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between'}}>
-    <Card.Title>Card Title</Card.Title>
-    <Card.Text style={{fontSize:12}}>
-      Some quick example text to build on the card title and make up the bulk of
-      the card's content.
-    </Card.Text>
-    <Button variant="outline-dark" style={{width: '100%'}}>Go somewhere</Button>
-  </Card.Body>
-</Card>
-
-<Card style={{ width: 250, margin:10 }}>
-  <Card.Img variant="top" style={{width: 180, height:300, alignSelf:'center', paddingTop:20, cursor:'pointer'}} src="https://i.pinimg.com/564x/b7/77/d0/b777d0e46cba55f535f68318e28aca80.jpg" />
-  <Card.Body style={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between'}}>
-    <Card.Title>Card Title</Card.Title>
-    <Card.Text style={{fontSize:12}}>
-      Some quick example text to build on the card title and make up the bulk of
-      the card's content.
-    </Card.Text>
-    <Button variant="outline-dark" style={{width: '100%'}}>Go somewhere</Button>
-  </Card.Body>
-</Card>
-</Row>
-</Container>
-  </>
-  )};
+  return (
+    <>
+      <Header />
+      <StyledContainer>
+        <StyledTitle>Movie Now</StyledTitle>
+        <StyledRow>
+            {movies.map((movie) => (
+          <StyledCard key={movie.id}>
+            <StyledCardImg
+              variant="top"
+              src={movie.url_picture}
+            />
+            <StyledCardBody>
+              <StyledCard.Title>{movie.name}</StyledCard.Title>
+              <StyledCardText>
+                {movie.description}
+              </StyledCardText>
+              <StyledButton variant="outline-dark">Assista Agora</StyledButton>
+            </StyledCardBody>
+          </StyledCard>
+            ))}
+        </StyledRow>
+      </StyledContainer>
+    </>
+  );
+};
 
 export default Main;
