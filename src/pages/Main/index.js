@@ -13,7 +13,7 @@ import {
   StyledCardText,
 } from "./styles";
 
-function Main() {
+function Main(props) {
   
 const [movies, setMovies] = useState([]);
   useEffect(() => {
@@ -34,6 +34,12 @@ const [movies, setMovies] = useState([]);
   },
     []);
 
+const goListEpisodes = (id,name) =>{
+     props.history.push('/list-episodes',{id,name})
+}
+    
+
+
   return (
     <>
       <Header />
@@ -41,17 +47,22 @@ const [movies, setMovies] = useState([]);
         <StyledTitle>Movie Now</StyledTitle>
         <StyledRow>
             {movies.map((movie) => (
-          <StyledCard key={movie.id}>
+          <StyledCard key={movie?.id}>
+            
             <StyledCardImg
               variant="top"
-              src={movie.url_picture}
+              src={movie?.url_picture}
+              onClick={()=>goListEpisodes(movie?.id, movie?.name)}
             />
+            
             <StyledCardBody>
-              <StyledCard.Title>{movie.name}</StyledCard.Title>
+              <StyledCard.Title>{movie?.name}</StyledCard.Title>
               <StyledCardText>
-                {movie.description}
+                {movie?.description}
               </StyledCardText>
-              <StyledButton variant="outline-dark">Assista Agora</StyledButton>
+              <StyledButton variant="outline-dark" 
+              onClick={()=>goListEpisodes(movie?.id, movie?.name)}>Assista Agora
+              </StyledButton>
             </StyledCardBody>
           </StyledCard>
             ))}
